@@ -53,7 +53,11 @@ endif
 ifeq ($(USE_BLAS), openblas)
 	MSHADOW_LDFLAGS += -lopenblas
 else ifeq ($(USE_BLAS), atlas)
+ifeq ($(shell lsb_release -si), CentOS)
+	MSHADOW_LDFLAGS += -L/usr/lib64/atlas -ltatlas
+else
 	MSHADOW_LDFLAGS += -lcblas
+endif
 else ifeq ($(USE_BLAS), blas)
 	MSHADOW_LDFLAGS += -lblas
 else ifeq ($(USE_BLAS), apple)
